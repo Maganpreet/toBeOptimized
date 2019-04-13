@@ -1,0 +1,49 @@
+void sort(int *a,int n){
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(a[j]>a[j+1]){
+                int t = a[j];
+                a[j] = a[j+1];
+                a[j+1] = t;
+            }
+        }
+    }
+}
+
+int minimumSwaps(int count, int* arr) {
+    int *a = (int*)malloc(sizeof(int)*count+1);
+    a[0] = 0;
+    for(int i=1;i<=count;i++){
+        a[i] = arr[i-1];
+    }
+    int ncount = count+1;
+    int hash[ncount];
+    bool vis[ncount];
+    for(int i=0;i<ncount;i++){
+        hash[a[i]] = i;
+        vis[a[i]] = false;
+    }
+    int counter=0;
+    sort(a,ncount);
+    
+    
+    for(int i=0;i<ncount;i++){
+        int c=0;
+        if(i==hash[a[i]] || vis[a[i]])
+            continue;
+        else{
+            int v = a[i];
+            while(vis[v]!=true){
+                vis[v] = true;
+                //printf("%d %d\n",v,c);
+                //printf("  %d\n",hash[v]);
+                v = hash[v];
+                c++;
+            }
+        }
+        //printf("%d",counter);
+        counter+=(c-1);
+    }
+    return counter;
+
+}
